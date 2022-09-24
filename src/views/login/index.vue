@@ -2,24 +2,33 @@
   <div class="login-container">
     <div class="login-form">
       <img class="diy-img" src="@/assets/common/logo.png">
-      <el-form class="loginform">
-        <el-form-item>
+      <el-form ref="form" class="loginform" :model="loginFormData" :rules="loginrules">
+        <el-form-item prop="loginName">
           <span
             class="svg-container el-icon-mobile-phone"
           />
-          <el-input />
+          <el-input v-model="loginFormData.loginName" type="text" placeholder="请输入用户名/手机号" />
         </el-form-item>
-        <el-form-item>
+
+        <el-form-item prop="password">
           <span class="svg-container el-icon-lock" />
-          <el-input />
-        </el-form-item>
-        <el-form-item>
-          <span class="svg-container el-icon-user-solid" />
-          <el-input />
+          <el-input v-model="loginFormData.password" :type="passwordType" placeholder="请输入密码" />
           <span>
-            <svg-icon icon-class="eye" />
+            <svg-icon :icon-class="passwordType==='password'? 'eye':'eye-open'" @click="showPwd" />
           </span>
         </el-form-item>
+
+        <el-form-item prop="code">
+          <el-row>
+            <el-col :span="17">
+              <span class="svg-container el-icon-user-solid" />
+              <el-input v-model="loginFormData.code" placeholder="请输入验证码" />
+            </el-col>
+            <el-col :span="7"> <img class="diy-code-image" :src="imageData" alt="xxx"></el-col>
+          </el-row>
+
+        </el-form-item>
+
         <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="login">登录</el-button>
       </el-form>
     </div>
@@ -27,9 +36,52 @@
 </template>
 
 <script>
-
+import { imageVerificationCodeApi } from '@/api'
 export default {
-  name: 'Login'
+  name: 'Login',
+  data() {
+    return {
+      loginFormData: {
+        loginName: 'admin',
+        password: 'admin',
+        code: ''
+      },
+      passwordType: 'password',
+      imageData: '',
+      loading: false,
+      // 表单校验规则
+      loginrules: {
+        loginName: [{ required: true, message: '请输入账号' }],
+        password: [{ required: true, message: '请输入密码' }],
+        code: [{ required: true, message: '请输入验证码' }]
+
+      }
+    }
+  },
+  computed: {
+    clientToken() {
+      return Math.random()
+    }
+  },
+  created() {
+    this.getImgCode()
+  },
+  methods: {
+    showPwd() {
+      this.passwordType === 'password' ? this.passwordType = '' : this.passwordType = 'password'
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
+    },
+    async getImgCode() {
+      const { data } = await imageVerificationCodeApi(this.clientToken)
+      this.imageData = window.URL.createObjectURL(data)
+      console.log(this.imageData)
+    },
+    // 点击登录事件
+    login() {
+    }
+  }
 }
 </script>
 
@@ -52,6 +104,7 @@ export default {
       left: 50%;
       transform: translate(-50%,-50%);
   }
+
   .loginBtn{
     width: 100%;
     height: 52px;
@@ -68,8 +121,8 @@ export default {
 <style lang="scss">
 
 $bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$light_gray:#999;
+$cursor: #999;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -113,6 +166,9 @@ $cursor: #fff;
     background: #fff;
     border: 1px solid #e2e2e2;
     border-radius: 4px;
+  }
+  .el-form-item__content{
+    line-height: 50px;
   }
 }
 </style>
