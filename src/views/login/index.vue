@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-form">
       <img class="diy-img" src="@/assets/common/logo.png">
-      <el-form ref="form" class="loginform" :model="loginFormData" :rules="loginrules">
+      <el-form ref="loginForm" class="loginform" :model="loginFormData" :rules="loginrules">
         <el-form-item prop="loginName">
           <span
             class="svg-container el-icon-mobile-phone"
@@ -24,7 +24,7 @@
               <span class="svg-container el-icon-user-solid" />
               <el-input v-model="loginFormData.code" placeholder="请输入验证码" />
             </el-col>
-            <el-col :span="7"> <img class="diy-code-image" :src="imageData" alt="xxx"></el-col>
+            <el-col :span="7"> <img class="diy-code-image" :src="imageData" alt="xxx" @click="changeCode"></el-col>
           </el-row>
 
         </el-form-item>
@@ -36,31 +36,41 @@
 </template>
 
 <script>
+// import { validMobile } from '@/utils/validate'
 import { imageVerificationCodeApi } from '@/api'
 export default {
   name: 'Login',
   data() {
+    /*     const validateMobile = (rule, value, callback) => {
+      // rule 对应的规则
+      // value 对应的值
+      // callback 验证完成后调用的回调函数 验证通过直接调用 验证不通过 也是 调用 callback,但是会把错误信息 传递出去
+      if (!validMobile(value)) {
+        callback(new Error('手机号格式不正确'))
+      } else {
+        callback()
+      }
+    } */
     return {
       loginFormData: {
         loginName: 'admin',
         password: 'admin',
-        code: ''
+        code: '',
+        // mobile: '',
+        clientToken: '',
+        loginType: '0'
+        // account: '0'
       },
       passwordType: 'password',
       imageData: '',
       loading: false,
       // 表单校验规则
       loginrules: {
-        loginName: [{ required: true, message: '请输入账号' }],
+        loginName: [{ required: true, message: '请输入账号' }/* , { validator: validateMobile } */],
         password: [{ required: true, message: '请输入密码' }],
         code: [{ required: true, message: '请输入验证码' }]
 
       }
-    }
-  },
-  computed: {
-    clientToken() {
-      return Math.random()
     }
   },
   created() {
@@ -74,12 +84,35 @@ export default {
       })
     },
     async getImgCode() {
-      const { data } = await imageVerificationCodeApi(this.clientToken)
-      this.imageData = window.URL.createObjectURL(data)
-      console.log(this.imageData)
+      try {
+        this.loginFormData.clientToken = Math.random()
+        const { data } = await imageVerificationCodeApi(this.loginFormData.clientToken)
+        this.imageData = window.URL.createObjectURL(data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    changeCode() {
+      this.getImgCode()
     },
     // 点击登录事件
-    login() {
+    async login() {
+      // async标记的哈数是一个promise对象
+      // await下面的代码都是成功执行的代码
+      try {
+        // 手动表单校验
+        this.loading = true
+        await this.$refs.loginForm.validate()
+        // 只有校验成功后去调用action 发起请求
+        await this.$store.dispatch('user/loginAction', this.loginFormData)
+        // 登录成功之后跳转页面
+        this.$router.push({ path: '/' })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        // 不论成功还是失败都关闭loading
+        this.loading = false
+      }
     }
   }
 }
