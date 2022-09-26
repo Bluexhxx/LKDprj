@@ -10,6 +10,9 @@ export default {
   mutations: {
     SET_TOKEN(state, playload) {
       state.token = playload
+    },
+    REMOVE_TOKEN(state, playload) {
+      state.token = ''
     }
   },
   actions: {
@@ -27,6 +30,9 @@ export default {
           console.log(e.msg)
         }
       }
+    },
+    loginOutAction({ commit }) {
+      commit('REMOVE_TOKEN')
     }
   }
 }

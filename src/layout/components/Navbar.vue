@@ -13,7 +13,7 @@
         <div class="avatar-wrapper">
           <img src="http://destiny001.gitee.io/image/monkey_02.jpg" class="user-avatar">
           <span>欢迎您，</span><span>admin</span>
-          <span style="padding-left: 30px ">退出<i class="el-icon-caret-bottom" /></span>
+          <span style="padding-left: 30px " @click="loginOut">退出<i class="el-icon-caret-bottom" /></span>
 
         </div>
       </el-dropdown>
@@ -35,9 +35,9 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    async loginOut() {
+      await this.$store.dispatch('user/loginOutAction')
+      this.$router.push('/login')
     }
   }
 }
