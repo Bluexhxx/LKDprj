@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
+// 临时引入展示效果
+import nodeRouter from './modules/node'
+import orderRouter from './modules/order'
+import policyRouter from './modules/policy'
+import skuRouter from './modules/sku'
+import taskRouter from './modules/task'
+import userRouter from './modules/user'
+import vmRouter from './modules/vm'
+Vue.use(Router)
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -54,15 +60,23 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+export const asyncRoutes = [
+  nodeRouter,
+  orderRouter,
+  policyRouter,
+  skuRouter,
+  taskRouter,
+  userRouter,
+  vmRouter
+]
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: [...constantRoutes, ...asyncRoutes]
 })
 
 const router = createRouter()
@@ -74,3 +88,8 @@ export function resetRouter() {
 }
 
 export default router
+
+/*
+mkdir task.js node.js vm.js user.js sku.js policy.js order.js
+
+*/
