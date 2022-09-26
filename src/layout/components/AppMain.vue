@@ -1,8 +1,6 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <router-view :key="key" />
-    </transition>
+    <router-view :key="key" />
   </section>
 </template>
 
@@ -19,14 +17,17 @@ export default {
 
 <style scoped>
 .app-main {
-  /*50 = navbar  */
-  min-height: calc(100vh - 50px);
-  width: 100%;
+  /*60 = navbar  */
+  min-height: calc(100vh - 60px);
+  width: calc(100vw - 186px);
+  margin-top: 60px;
+  margin-left: 168px;
+  background-color: skyblue;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
 }
 .fixed-header+.app-main {
-  padding-top: 50px;
+  padding-top: 60px;
 }
 </style>
 
