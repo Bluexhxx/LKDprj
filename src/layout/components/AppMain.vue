@@ -25,6 +25,7 @@ export default {
     overflow: auto;
     right: 0;
     top: 60px;
+    background-color: #f8fafd;
   /*50 = navbar  */
   /* min-height: calc(100vh - 50px);
   width: 100%;

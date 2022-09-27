@@ -1,3 +1,4 @@
+import store from '@/store'
 import axios from 'axios'
 // 创建了一个新的axios实例
 const request = axios.create({
@@ -7,6 +8,13 @@ const request = axios.create({
 })
 
 // 导出一个axios的实例  而且这个实例要有请求拦截器 响应拦截器
-request.interceptors.request.use() // 请求拦截器
+request.interceptors.request.use(config => {
+  if (store.getters.token) {
+    config.headers.Authorization = `Bearer ${store.getters.token}`
+  }
+  return config
+}, error => {
+  return Promise.reject(error)
+}) // 请求拦截器
 request.interceptors.response.use() // 响应拦截器
 export default request // 导出axios实例
