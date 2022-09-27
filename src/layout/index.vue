@@ -1,11 +1,11 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
+    <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
+    <!-- <div :class="{'fixed-header':fixedHeader}"> -->
+    <navbar />
+    <!-- </div> -->
     <div class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
-      </div>
+      <sidebar class="sidebar-container" />
       <app-main />
     </div>
   </div>
@@ -42,10 +42,13 @@ export default {
       }
     }
   },
+  // created() {
+  //   this.$store.dispatch('user/getUserInfoAction')
+  // },
   methods: {
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
+    // handleClickOutside() {
+    //   this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+    // }
   }
 }
 </script>

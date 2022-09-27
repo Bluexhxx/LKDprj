@@ -31,7 +31,7 @@ export default {
         }
       }
     },
-    loginOutAction({ commit }) {
+    logoOutAction({ commit }) {
       commit('REMOVE_TOKEN')
     }
   }
