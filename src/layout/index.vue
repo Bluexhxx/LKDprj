@@ -4,10 +4,13 @@
     <!-- <div :class="{'fixed-header':fixedHeader}"> -->
     <navbar />
     <!-- </div> -->
-    <div class="main-container">
-      <sidebar class="sidebar-container" />
-      <app-main />
-    </div>
+    <template v-infinite-scroll="load" class="infinite-list" style="overflow:auto">
+      <div class="main-container">
+        <sidebar class="sidebar-container" />
+        <app-main />
+      </div>
+    </template>
+
   </div>
 </template>
 
@@ -56,7 +59,10 @@ export default {
 <style lang="scss" scoped>
   @import "~@/styles/mixin.scss";
   @import "~@/styles/variables.scss";
-
+.diy-scroll{
+  height: calc(100vh - 60px);
+  overflow: scroll;
+}
   .app-wrapper {
     @include clearfix;
     position: relative;

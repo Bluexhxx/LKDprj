@@ -3,9 +3,10 @@
     <div slot="header" class="clearfix">
       <span><CardTitle :title="title" /><date /></span>
     </div>
-    <div v-for="o in 4" :key="o" class="text item">
-      {{ '列表内容 ' + o }}
-    </div>
+    <el-row style="height:280px">
+      <img src="@/assets/common/empty.png" class="image" style="width:123px;height:96px">
+      <p>暂无数据</p>
+    </el-row>
   </el-card>
 </template>
 
@@ -16,16 +17,9 @@ export default {
   components: {
     date, CardTitle
   },
-  props: {
-    // title: {
-    //   type: String,
-    //   require: true,
-    //   default: '标题'
-    // }
-  },
   data() {
     return {
-      title: '工单统计'
+      title: '异常设备监控'
     }
   }
 }

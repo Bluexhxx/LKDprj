@@ -19,7 +19,7 @@ export default {
 
 <style scoped>
 .app-main {
-  min-height: calc(100vh - 60px);
+    height: calc(100vh - 60px);
     width: calc(100vw - 168px);
     position: fixed;
     overflow: auto;

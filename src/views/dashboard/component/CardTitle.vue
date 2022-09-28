@@ -1,5 +1,5 @@
 <template>
-  <h3>{{ title }}</h3>
+  <span>{{ title }}</span>
 </template>
 
 <script>
@@ -14,8 +14,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h3 {
+span {
+  display: inline-block;
   font-size: 16px;
+  font-weight: 600;
   color: #333333;
 }
 </style>

@@ -12,6 +12,7 @@ request.interceptors.request.use(config => {
   if (store.getters.token) {
     config.headers.Authorization = `Bearer ${store.getters.token}`
   }
+  console.log(config)
   return config
 }, error => {
   return Promise.reject(error)

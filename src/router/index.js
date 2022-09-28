@@ -66,12 +66,12 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   nodeRouter,
-  orderRouter,
-  policyRouter,
-  skuRouter,
+  vmRouter,
   taskRouter,
+  policyRouter,
   userRouter,
-  vmRouter
+  orderRouter,
+  skuRouter
 ]
 const createRouter = () => new Router({
   // mode: 'history', // require service support

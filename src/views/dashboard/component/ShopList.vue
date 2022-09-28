@@ -1,10 +1,10 @@
-<template>
+<template class="shoplist">
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <span><CardTitle :title="title" /><date /></span>
     </div>
-    <div v-for="o in 4" :key="o" class="text item">
-      {{ '列表内容 ' + o }}
+    <div v-for="o in 10" :key="o" class="text item">
+      <span class="diy-index"> {{ o }}</span>{{ '列表内容 ' + o }}<span> {{ o+ '单 ' }}</span>
     </div>
   </el-card>
 </template>
@@ -13,30 +13,31 @@
 import date from './date.vue'
 import CardTitle from './CardTitle.vue'
 export default {
+  name: 'ShopList',
   components: {
     date, CardTitle
   },
-  props: {
-    // title: {
-    //   type: String,
-    //   require: true,
-    //   default: '标题'
-    // }
-  },
   data() {
     return {
-      title: '工单统计'
+      title: '商品热榜'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
   ::v-deep .el-card__body {
   display: flex;
-    flex-direction: row;
-    align-content: space-between;
-    justify-content: space-around;
+    flex-direction: column;
+    align-content: space-around;
+    align-items: center;
+    line-height: 20px;
+
+    .text{
+      margin: 10px;
+      padding: 0 10px;
+    }
   }
 
 </style>
