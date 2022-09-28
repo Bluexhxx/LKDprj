@@ -62,14 +62,15 @@
         <el-row :gutter="20">
           <el-col :span="14">
             <div class="grid-content bg-purple">
-              <el-card class="box-card">
+              <!-- <el-card class="box-card">
                 <div slot="header" class="clearfix">
                   <span>工单统计<date /></span>
                 </div>
                 <div v-for="o in 4" :key="o" class="text item">
                   {{ '列表内容 ' + o }}
                 </div>
-              </el-card>
+              </el-card> -->
+              <statistical />
             </div>
           </el-col>
           <el-col :span="10"><div class="grid-content bg-purple" /></el-col>
@@ -87,43 +88,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import date from './component/date.vue'
-import { workOrderStatisticsApi } from '@/api'
+
+import statistical from './component/statistical.vue'
 // import title from './component/title.vue'
 export default {
   name: 'Dashboard',
   components: {
-    date
+    statistical
   },
   data() {
     return {
-      obj: {
-        userId: '1',
-        start: '2020-10-01 00:00:00',
-        end: '2020-10-31 00:00:00'
-      }
 
     }
-  },
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
-  },
-  created() {
-    this.workOrderStatistics()
-  },
-  methods: {
-    async workOrderStatistics() {
-      try {
-        const res = await workOrderStatisticsApi(this.obj)
-        console.log(res)
-      } catch (error) {
-        console.log(error)
-      }
-    }
   }
+
 }
 </script>
 

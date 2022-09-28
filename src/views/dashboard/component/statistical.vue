@@ -1,56 +1,46 @@
 <template>
-  <div>
-    <div class="header">
-      <Title title="工单统计"></Title>
-      <Date></Date>
+  <el-card class="box-card">
+    <div slot="header" class="clearfix">
+      <span>工单统计<date /></span>
     </div>
-    <div class="list">
-      <ul>
-        <li>
-          <h4>149</h4>
-          <span>工单总数</span>
-        </li>
-      </ul>
+    <div v-for="o in 4" :key="o" class="text item">
+      {{ '列表内容 ' + o }}
     </div>
-  </div>
+  </el-card>
 </template>
 
 <script>
-import Title from './title.vue'
-import Date from './date.vue'
+import date from './date.vue'
+import { workOrderStatisticsApi } from '@/api'
 export default {
-  components: { Title, Date }
-}
-</script>
-
-<style scoped lang="scss">
-.header {
-  display: flex;
-  align-items: center;
-}
-.list {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  margin-top: 22px;
-  ul {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
+  components: {
+    date
+  },
+  data() {
+    return {
+      obj: {
+        userId: '1',
+        start: '2020-10-01 00:00:00',
+        end: '2020-10-31 00:00:00'
+      }
+    }
+  },
+  created() {
+    this.workOrderStatistics()
+  },
+  methods: {
+    async workOrderStatistics() {
+      try {
+        const res = await workOrderStatisticsApi(this.obj)
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
-h4 {
-  font-size: 36px;
-  margin-bottom: 5px;
-  font-family: PingFangSC-Semibold, PingFang SC;
-}
-span {
-  font-size: 12px;
-}
+</script>
+
+<style>
+
 </style>
